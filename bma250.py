@@ -39,4 +39,7 @@ class BMA250:
         with self._device:
             self._device.write(bytes([register]), stop=False)
             self._device.readinto(self._buffer)
-            return int(self._buffer[1]) << 2 | int(self._buffer[0]) >> 6
+            value = int(self._buffer[1]) << 2 | int(self._buffer[0]) >> 6
+            if value > 511: 
+                value -= 1024
+            return value
